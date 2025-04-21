@@ -1,6 +1,6 @@
 <?php
 require_once 'config.php';
-require_once 'admin_header.php';
+require_once 'adminheader.php';
 
 // Check admin authentication
 if (!isset($_SESSION['admin_logged_in'])) {
