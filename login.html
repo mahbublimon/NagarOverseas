@@ -1,0 +1,262 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Nagar Overseas - Login</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap"
+        rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: #f8f9fa;
+            background-image: url('images/login-bg.jpg');
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+        }
+
+        .login-container {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            background-color: rgba(255, 255, 255, 0.9);
+        }
+
+        .login-card {
+            background: white;
+            padding: 2rem;
+            border-radius: 10px;
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+            width: 100%;
+            max-width: 450px;
+            margin: 0 auto;
+        }
+
+        .toggle-password {
+            border-top-left-radius: 0;
+            border-bottom-left-radius: 0;
+            cursor: pointer;
+        }
+
+        #loadingSpinner {
+            display: none;
+        }
+
+        .toast-container {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            z-index: 1100;
+        }
+
+        .brand-logo {
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+
+        .brand-logo img {
+            max-height: 60px;
+        }
+
+        .form-control:focus {
+            border-color: #0d6efd;
+            box-shadow: 0 0 0 0.25rem rgba(13, 110, 253, 0.25);
+        }
+    </style>
+</head>
+
+<body>
+    <!-- Dynamic Navbar -->
+    <div id="navbar-placeholder"></div>
+    <!-- Toast Notification -->
+    <div class="toast-container">
+        <div id="loginToast" class="toast align-items-center text-white bg-success" role="alert" aria-live="assertive"
+            aria-atomic="true">
+            <div class="d-flex">
+                <div class="toast-body">
+                    Login successful! Redirecting...
+                </div>
+                <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast"
+                    aria-label="Close"></button>
+            </div>
+        </div>
+    </div>
+    <!-- Extra Space -->
+    <div class="mb-5"></div>
+    <div class="login-container">
+        <div class="container">
+            <div class="row justify-content-center">
+                <div class="col-md-8 col-lg-6">
+                    <div class="login-card">
+                        <h3 class="text-center mb-4">Sign In to Your Account</h3>
+                        <div id="loginMessage" class="alert alert-danger d-none"></div>
+                        <form id="loginForm">
+                            <div class="mb-3">
+                                <label for="username" class="form-label">Email or Username</label>
+                                <input type="text" class="form-control" id="username" name="username" required
+                                    placeholder="Enter your email or username">
+                            </div>
+                            <div class="mb-3">
+                                <label for="password" class="form-label">Password</label>
+                                <div class="input-group">
+                                    <input type="password" class="form-control" id="password" name="password" required
+                                        placeholder="Enter your password">
+                                    <button class="btn btn-outline-secondary toggle-password" type="button">
+                                        <i class="far fa-eye"></i>
+                                    </button>
+                                </div>
+                            </div>
+                            <div class="mb-3 d-flex justify-content-between align-items-center">
+                                <div class="form-check">
+                                    <input class="form-check-input" type="checkbox" id="rememberMe" name="rememberMe">
+                                    <label class="form-check-label" for="rememberMe">Remember me</label>
+                                </div>
+                                <a href="forgot_password.html" class="text-decoration-none text-primary">Forgot
+                                    password?</a>
+                            </div>
+                            <button type="submit" class="btn btn-primary w-100 py-2" id="loginButton">
+                                <span id="loginText">Sign In</span>
+                                <span id="loadingSpinner" class="spinner-border spinner-border-sm" role="status"
+                                    aria-hidden="true"></span>
+                            </button>
+                        </form>
+                        <div class="text-center mt-3">
+                            <p>Don't have an account? <a href="register.html" class="text-primary fw-bold">Sign up
+                                    now</a></p>
+                        </div>
+                        <div class="text-center mt-4">
+                            <p class="text-muted">Or sign in with</p>
+                            <div class="d-flex justify-content-center gap-3">
+                                <a href="#" class="btn btn-outline-primary rounded-circle p-2">
+                                    <i class="fab fa-google"></i>
+                                </a>
+                                <a href="#" class="btn btn-outline-primary rounded-circle p-2">
+                                    <i class="fab fa-facebook-f"></i>
+                                </a>
+                                <a href="#" class="btn btn-outline-primary rounded-circle p-2">
+                                    <i class="fab fa-twitter"></i>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Dynamic Footer -->
+    <div id="footer-placeholder"></div>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="script.js"></script>
+    <script>
+        // Initialize Toast
+        const loginToast = new bootstrap.Toast(document.getElementById('loginToast'));
+
+        // Toggle password visibility
+        document.querySelectorAll('.toggle-password').forEach(button => {
+            button.addEventListener('click', function () {
+                const input = this.previousElementSibling;
+                const type = input.getAttribute('type') === 'password' ? 'text' : 'password';
+                input.setAttribute('type', type);
+                this.innerHTML = type === 'password' ? '<i class="far fa-eye"></i>' : '<i class="far fa-eye-slash"></i>';
+                // Focus back on the input field
+                input.focus();
+            });
+        });
+
+        // Form submission with loading state
+        document.getElementById('loginForm').addEventListener('submit', async function (e) {
+            e.preventDefault();
+
+            // Get form elements
+            const form = e.target;
+            const loginButton = document.getElementById('loginButton');
+            const loginText = document.getElementById('loginText');
+            const loadingSpinner = document.getElementById('loadingSpinner');
+            const messageDiv = document.getElementById('loginMessage');
+
+            // Show loading state
+            loginText.textContent = 'Signing in...';
+            loadingSpinner.style.display = 'inline-block';
+            loginButton.disabled = true;
+            messageDiv.classList.add('d-none');
+
+            try {
+                const formData = new FormData(form);
+
+                // Add CSRF token if available
+                if (typeof csrfToken !== 'undefined') {
+                    formData.append('csrf_token', csrfToken);
+                }
+
+                const response = await fetch('process_login.php', {
+                    method: 'POST',
+                    body: formData,
+                    headers: {
+                        'X-Requested-With': 'XMLHttpRequest'
+                    }
+                });
+
+                const data = await response.json();
+
+                if (data.success) {
+                    // Show success toast
+                    document.getElementById('loginToast').classList.remove('bg-danger');
+                    document.getElementById('loginToast').classList.add('bg-success');
+                    document.querySelector('#loginToast .toast-body').textContent = data.message || 'Login successful! Redirecting...';
+                    loginToast.show();
+
+                    // Redirect after delay
+                    setTimeout(() => {
+                        if (data.redirect) {
+                            window.location.href = data.redirect;
+                        } else if (data.is_admin) {
+                            window.location.href = 'admin_dashboard.php';
+                        } else {
+                            window.location.href = 'index.html';
+                        }
+                    }, 1500);
+                } else {
+                    // Show error message
+                    messageDiv.textContent = data.message || 'Login failed. Please try again.';
+                    messageDiv.classList.remove('d-none');
+                    messageDiv.classList.remove('alert-success');
+                    messageDiv.classList.add('alert-danger');
+
+                    // Show error toast
+                    document.getElementById('loginToast').classList.remove('bg-success');
+                    document.getElementById('loginToast').classList.add('bg-danger');
+                    document.querySelector('#loginToast .toast-body').textContent = data.message || 'Login failed';
+                    loginToast.show();
+                }
+            } catch (error) {
+                console.error('Error:', error);
+                messageDiv.textContent = 'An error occurred during login. Please try again.';
+                messageDiv.classList.remove('d-none');
+                messageDiv.classList.remove('alert-success');
+                messageDiv.classList.add('alert-danger');
+
+                // Show error toast
+                document.getElementById('loginToast').classList.remove('bg-success');
+                document.getElementById('loginToast').classList.add('bg-danger');
+                document.querySelector('#loginToast .toast-body').textContent = 'Network error occurred';
+                loginToast.show();
+            } finally {
+                // Reset button state
+                loginText.textContent = 'Sign In';
+                loadingSpinner.style.display = 'none';
+                loginButton.disabled = false;
+            }
+        });
+
+        // Focus on username field when page loads
+        document.addEventListener('DOMContentLoaded', function () {
+            document.getElementById('username').focus();
+        });
+    </script>
+</body>
+
+</html>

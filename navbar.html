@@ -1,0 +1,88 @@
+<nav class="navbar navbar-expand-lg navbar-light bg-white fixed-top shadow-sm">
+    <div class="container">
+        <!-- Logo linking to home.html with image -->
+        <a class="navbar-brand" href="index.html">
+            <img src="/images/logo.png" alt="Nagar Overseas Logo" height="40" class="d-inline-block align-top">
+        </a>
+        
+        <!-- Mobile toggle button -->
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        
+        <!-- Navigation items -->
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav ms-auto">
+                <li class="nav-item">
+                    <a class="nav-link active" href="index.html">Home</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="about.html">About</a>
+                </li>
+                
+                <!-- Services Dropdown -->
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" id="servicesDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                        Services
+                    </a>
+                    <ul class="dropdown-menu" aria-labelledby="servicesDropdown">
+                        <li><a class="dropdown-item" href="tours.html">Tour Packages</a></li>
+                        <li><a class="dropdown-item" href="visa.html">Visa Processing</a></li>
+                        <li><a class="dropdown-item" href="airtickets.html">Air Tickets</a></li>
+                        <li><a class="dropdown-item" href="hotelbooking.html">Hotel Booking</a></li>
+                        <li><a class="dropdown-item" href="transport.html">Transportation</a></li>
+                    </ul>
+                </li>
+                
+                <li class="nav-item">
+                    <a class="nav-link" href="destinations.html">Destinations</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="blog.html">Blog</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="contact.html">Contact</a>
+                </li>
+                
+                <!-- Quick Actions -->
+                <li class="nav-item d-flex align-items-center ms-lg-2">
+                    <div class="d-flex">
+                        <a href="cart.html" class="btn btn-light position-relative mx-1" title="Cart">
+                            <i class="fas fa-shopping-cart"></i>
+                            <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">0</span>
+                        </a>
+                    </div>
+                </li>
+                
+                <!-- User Account Dropdown -->
+                <li class="nav-item dropdown ms-lg-2">
+                    <a class="btn btn-primary btn-account dropdown-toggle" href="#" id="userDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                        <i class="fas fa-user me-1"></i> Account
+                    </a>
+                    <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="userDropdown">
+                        <li><a class="dropdown-item" href="login.html">Login</a></li>
+                        <li><a class="dropdown-item" href="register.html">Register</a></li>
+                        <li><hr class="dropdown-divider"></li>
+                        <li><a class="dropdown-item" href="dashboard.php">Dashboard</a></li>
+                        <li><a class="dropdown-item" href="bookings.php">My Bookings</a></li>
+                        <li><a class="dropdown-item" href="profile.php">Profile</a></li>
+                    </ul>
+                </li>
+                
+                <!-- Admin Dropdown -->
+                <li class="nav-item dropdown ms-lg-2">
+                    <a class="btn btn-outline-primary btn-admin dropdown-toggle" href="#" id="adminDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                        <i class="fas fa-cog me-1"></i> Admin
+                    </a>
+                    <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="adminDropdown">
+                        <li><a class="dropdown-item" href="admindashboard.php">Dashboard</a></li>
+                        <li><a class="dropdown-item" href="adminbookings.php">Manage Bookings</a></li>
+                        <li><a class="dropdown-item" href="admintours.php">Manage Tours</a></li>
+                        <li><a class="dropdown-item" href="adminvisa.php">Visa Applications</a></li>
+                        <li><a class="dropdown-item" href="adminusers.php">User Management</a></li>
+                    </ul>
+                </li>
+            </ul>
+        </div>
+    </div>
+</nav>

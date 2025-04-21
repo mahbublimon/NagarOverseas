@@ -1,0 +1,637 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Transport Services - Nagar Overseas</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+    <style>
+        .transport-card {
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            margin-bottom: 20px;
+            height: 100%;
+        }
+        .transport-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+        }
+        .transport-img {
+            height: 200px;
+            object-fit: cover;
+        }
+        .feature-icon {
+            width: 20px;
+            text-align: center;
+            margin-right: 5px;
+            color: #0d6efd;
+        }
+        .price-badge {
+            font-size: 1.1rem;
+            padding: 0.5rem 1rem;
+        }
+        .map-container {
+            height: 400px;
+            border-radius: 10px;
+            overflow: hidden;
+        }
+        .vehicle-option {
+            border: 1px solid #dee2e6;
+            border-radius: 5px;
+            padding: 15px;
+            margin-bottom: 15px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        .vehicle-option:hover {
+            border-color: #0d6efd;
+            background-color: rgba(13, 110, 253, 0.05);
+        }
+        .vehicle-option.selected {
+            border-color: #0d6efd;
+            background-color: rgba(13, 110, 253, 0.1);
+        }
+        .datepicker {
+            z-index: 1051 !important;
+        }
+    </style>
+</head>
+<body>
+    <!-- Include Navbar -->
+    <div id="navbar-placeholder"></div>
+
+    <!-- Hero Section -->
+    <section class="hero-section bg-primary text-white py-5">
+        <div class="container py-4">
+            <div class="row align-items-center">
+                <div class="col-lg-6">
+                    <h1 class="display-4 fw-bold mb-3">Transport Services</h1>
+                    <p class="lead mb-4">Book comfortable and reliable transportation for your travels worldwide</p>
+                    <div class="d-flex flex-wrap gap-2">
+                        <span class="badge bg-light text-dark"><i class="fas fa-car me-1"></i> Taxis</span>
+                        <span class="badge bg-light text-dark"><i class="fas fa-shuttle-van me-1"></i> Shuttles</span>
+                        <span class="badge bg-light text-dark"><i class="fas fa-bus me-1"></i> Buses</span>
+                        <span class="badge bg-light text-dark"><i class="fas fa-train me-1"></i> Trains</span>
+                        <span class="badge bg-light text-dark"><i class="fas fa-ship me-1"></i> Ferries</span>
+                    </div>
+                </div>
+                <div class="col-lg-6">
+                    <img src="images/transport-hero.png" alt="Transport Services" class="img-fluid rounded">
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Search Section -->
+    <section class="py-4 bg-light">
+        <div class="container">
+            <div class="card shadow-sm">
+                <div class="card-body">
+                    <form id="transportSearchForm">
+                        <div class="row g-3">
+                            <div class="col-md-4">
+                                <label for="pickupLocation" class="form-label">Pickup Location</label>
+                                <input type="text" class="form-control" id="pickupLocation" placeholder="City, Airport, or Address" required>
+                            </div>
+                            <div class="col-md-4">
+                                <label for="dropoffLocation" class="form-label">Drop-off Location</label>
+                                <input type="text" class="form-control" id="dropoffLocation" placeholder="City, Airport, or Address" required>
+                            </div>
+                            <div class="col-md-2">
+                                <label for="transportDate" class="form-label">Date</label>
+                                <input type="date" class="form-control" id="transportDate" required>
+                            </div>
+                            <div class="col-md-2 d-flex align-items-end">
+                                <button type="submit" class="btn btn-primary w-100">
+                                    <i class="fas fa-search me-1"></i> Search
+                                </button>
+                            </div>
+                        </div>
+                        <div class="row mt-3">
+                            <div class="col-md-3">
+                                <label for="passengers" class="form-label">Passengers</label>
+                                <select class="form-select" id="passengers">
+                                    <option value="1">1 Passenger</option>
+                                    <option value="2" selected>2 Passengers</option>
+                                    <option value="3">3 Passengers</option>
+                                    <option value="4">4 Passengers</option>
+                                    <option value="5">5+ Passengers</option>
+                                </select>
+                            </div>
+                            <div class="col-md-3">
+                                <label for="luggage" class="form-label">Luggage</label>
+                                <select class="form-select" id="luggage">
+                                    <option value="0">No Luggage</option>
+                                    <option value="1" selected>1 Piece</option>
+                                    <option value="2">2 Pieces</option>
+                                    <option value="3">3+ Pieces</option>
+                                </select>
+                            </div>
+                            <div class="col-md-3">
+                                <label for="vehicleType" class="form-label">Vehicle Type</label>
+                                <select class="form-select" id="vehicleType">
+                                    <option value="">Any Type</option>
+                                    <option value="economy">Economy</option>
+                                    <option value="comfort">Comfort</option>
+                                    <option value="premium">Premium</option>
+                                    <option value="minivan">Minivan</option>
+                                    <option value="suv">SUV</option>
+                                </select>
+                            </div>
+                            <div class="col-md-3">
+                                <label for="transportTime" class="form-label">Time</label>
+                                <input type="time" class="form-control" id="transportTime" required>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Transport Options -->
+    <section class="py-5">
+        <div class="container">
+            <div class="row mb-4">
+                <div class="col-md-6">
+                    <h2 class="fw-bold">Available Transport Options</h2>
+                    <p class="text-muted">Showing results for <span id="searchRoute">popular routes</span></p>
+                </div>
+                <div class="col-md-6 text-md-end">
+                    <div class="dropdown d-inline-block me-2">
+                        <button class="btn btn-outline-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown">
+                            Sort by: Recommended
+                        </button>
+                        <ul class="dropdown-menu">
+                            <li><a class="dropdown-item" href="#">Price (Low to High)</a></li>
+                            <li><a class="dropdown-item" href="#">Price (High to Low)</a></li>
+                            <li><a class="dropdown-item" href="#">Vehicle Type</a></li>
+                            <li><a class="dropdown-item" href="#">Rating</a></li>
+                        </ul>
+                    </div>
+                    <div class="dropdown d-inline-block">
+                        <button class="btn btn-outline-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown">
+                            Filters
+                        </button>
+                        <ul class="dropdown-menu">
+                            <li><h6 class="dropdown-header">Vehicle Type</h6></li>
+                            <li><a class="dropdown-item" href="#"><i class="fas fa-car me-2"></i> Car</a></li>
+                            <li><a class="dropdown-item" href="#"><i class="fas fa-shuttle-van me-2"></i> Van</a></li>
+                            <li><a class="dropdown-item" href="#"><i class="fas fa-bus me-2"></i> Bus</a></li>
+                            <li><hr class="dropdown-divider"></li>
+                            <li><h6 class="dropdown-header">Other Filters</h6></li>
+                            <li><a class="dropdown-item" href="#"><i class="fas fa-wifi me-2"></i> WiFi Available</a></li>
+                            <li><a class="dropdown-item" href="#"><i class="fas fa-snowflake me-2"></i> Air Conditioning</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-lg-8">
+                    <div class="row" id="transportResults">
+                        <!-- Transport option 1 -->
+                        <div class="col-md-6 mb-4">
+                            <div class="card transport-card h-100">
+                                <img src="https://images.unsplash.com/photo-1541899481282-d53bffe3c35d?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=80" class="card-img-top transport-img" alt="Premium Sedan">
+                                <div class="card-body">
+                                    <div class="d-flex justify-content-between align-items-start mb-2">
+                                        <div>
+                                            <h5 class="card-title mb-1">Premium Sedan</h5>
+                                            <p class="text-muted small mb-2">Toyota Camry or similar</p>
+                                            <div class="d-flex flex-wrap gap-2 mb-2">
+                                                <span class="badge bg-light text-dark"><i class="fas fa-user me-1"></i> 3 Passengers</span>
+                                                <span class="badge bg-light text-dark"><i class="fas fa-suitcase me-1"></i> 2 Bags</span>
+                                            </div>
+                                        </div>
+                                        <div class="text-end">
+                                            <div class="price-badge bg-primary text-white rounded mb-1">$45.00</div>
+                                            <small class="text-muted">one way</small>
+                                        </div>
+                                    </div>
+                                    <div class="features mb-3">
+                                        <p class="small mb-1"><i class="fas fa-wifi feature-icon"></i> Free WiFi</p>
+                                        <p class="small mb-1"><i class="fas fa-snowflake feature-icon"></i> Air Conditioning</p>
+                                        <p class="small mb-1"><i class="fas fa-bolt feature-icon"></i> Electric Vehicle</p>
+                                    </div>
+                                    <button class="btn btn-outline-primary w-100 book-btn" data-transport-id="1">
+                                        <i class="fas fa-calendar-alt me-1"></i> Book Now
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Transport option 2 -->
+                        <div class="col-md-6 mb-4">
+                            <div class="card transport-card h-100">
+                                <img src="https://images.unsplash.com/photo-1544636331-e26879cd4d9b?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=80" class="card-img-top transport-img" alt="Comfort SUV">
+                                <div class="card-body">
+                                    <div class="d-flex justify-content-between align-items-start mb-2">
+                                        <div>
+                                            <h5 class="card-title mb-1">Comfort SUV</h5>
+                                            <p class="text-muted small mb-2">Honda CR-V or similar</p>
+                                            <div class="d-flex flex-wrap gap-2 mb-2">
+                                                <span class="badge bg-light text-dark"><i class="fas fa-user me-1"></i> 4 Passengers</span>
+                                                <span class="badge bg-light text-dark"><i class="fas fa-suitcase me-1"></i> 3 Bags</span>
+                                            </div>
+                                        </div>
+                                        <div class="text-end">
+                                            <div class="price-badge bg-primary text-white rounded mb-1">$60.00</div>
+                                            <small class="text-muted">one way</small>
+                                        </div>
+                                    </div>
+                                    <div class="features mb-3">
+                                        <p class="small mb-1"><i class="fas fa-snowflake feature-icon"></i> Air Conditioning</p>
+                                        <p class="small mb-1"><i class="fas fa-child feature-icon"></i> Child Seats Available</p>
+                                        <p class="small mb-1"><i class="fas fa-credit-card feature-icon"></i> Cashless Payment</p>
+                                    </div>
+                                    <button class="btn btn-outline-primary w-100 book-btn" data-transport-id="2">
+                                        <i class="fas fa-calendar-alt me-1"></i> Book Now
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Transport option 3 -->
+                        <div class="col-md-6 mb-4">
+                            <div class="card transport-card h-100">
+                                <img src="https://images.unsplash.com/photo-1568605117036-5fe5e7bab0b7?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=80" class="card-img-top transport-img" alt="Luxury Vehicle">
+                                <div class="card-body">
+                                    <div class="d-flex justify-content-between align-items-start mb-2">
+                                        <div>
+                                            <h5 class="card-title mb-1">Luxury Vehicle</h5>
+                                            <p class="text-muted small mb-2">Mercedes E-Class or similar</p>
+                                            <div class="d-flex flex-wrap gap-2 mb-2">
+                                                <span class="badge bg-light text-dark"><i class="fas fa-user me-1"></i> 3 Passengers</span>
+                                                <span class="badge bg-light text-dark"><i class="fas fa-suitcase me-1"></i> 3 Bags</span>
+                                            </div>
+                                        </div>
+                                        <div class="text-end">
+                                            <div class="price-badge bg-primary text-white rounded mb-1">$85.00</div>
+                                            <small class="text-muted">one way</small>
+                                        </div>
+                                    </div>
+                                    <div class="features mb-3">
+                                        <p class="small mb-1"><i class="fas fa-wifi feature-icon"></i> Free WiFi</p>
+                                        <p class="small mb-1"><i class="fas fa-snowflake feature-icon"></i> Air Conditioning</p>
+                                        <p class="small mb-1"><i class="fas fa-glass-cheers feature-icon"></i> Complimentary Water</p>
+                                    </div>
+                                    <button class="btn btn-outline-primary w-100 book-btn" data-transport-id="3">
+                                        <i class="fas fa-calendar-alt me-1"></i> Book Now
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Transport option 4 -->
+                        <div class="col-md-6 mb-4">
+                            <div class="card transport-card h-100">
+                                <img src="https://images.unsplash.com/photo-1583121274602-3e2820c69888?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=80" class="card-img-top transport-img" alt="Minivan">
+                                <div class="card-body">
+                                    <div class="d-flex justify-content-between align-items-start mb-2">
+                                        <div>
+                                            <h5 class="card-title mb-1">Minivan</h5>
+                                            <p class="text-muted small mb-2">Toyota Sienna or similar</p>
+                                            <div class="d-flex flex-wrap gap-2 mb-2">
+                                                <span class="badge bg-light text-dark"><i class="fas fa-user me-1"></i> 7 Passengers</span>
+                                                <span class="badge bg-light text-dark"><i class="fas fa-suitcase me-1"></i> 5 Bags</span>
+                                            </div>
+                                        </div>
+                                        <div class="text-end">
+                                            <div class="price-badge bg-primary text-white rounded mb-1">$75.00</div>
+                                            <small class="text-muted">one way</small>
+                                        </div>
+                                    </div>
+                                    <div class="features mb-3">
+                                        <p class="small mb-1"><i class="fas fa-snowflake feature-icon"></i> Air Conditioning</p>
+                                        <p class="small mb-1"><i class="fas fa-wheelchair feature-icon"></i> Wheelchair Accessible</p>
+                                        <p class="small mb-1"><i class="fas fa-baby feature-icon"></i> Child Seats Available</p>
+                                    </div>
+                                    <button class="btn btn-outline-primary w-100 book-btn" data-transport-id="4">
+                                        <i class="fas fa-calendar-alt me-1"></i> Book Now
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <nav aria-label="Page navigation" class="mt-4">
+                        <ul class="pagination justify-content-center">
+                            <li class="page-item disabled">
+                                <a class="page-link" href="#" tabindex="-1">Previous</a>
+                            </li>
+                            <li class="page-item active"><a class="page-link" href="#">1</a></li>
+                            <li class="page-item"><a class="page-link" href="#">2</a></li>
+                            <li class="page-item"><a class="page-link" href="#">3</a></li>
+                            <li class="page-item">
+                                <a class="page-link" href="#">Next</a>
+                            </li>
+                        </ul>
+                    </nav>
+                </div>
+
+                <div class="col-lg-4">
+                    <div class="card shadow-sm sticky-top" style="top: 100px;">
+                        <div class="card-body">
+                            <h5 class="fw-bold mb-3">Route Map</h5>
+                            <div class="map-container bg-light mb-3">
+                                <!-- In a real implementation, you would embed a map here -->
+                                <div class="d-flex align-items-center justify-content-center h-100">
+                                    <div class="text-center">
+                                        <i class="fas fa-map-marked-alt fa-3x text-muted mb-3"></i>
+                                        <p class="text-muted">Map will appear here</p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="d-flex justify-content-between mb-1">
+                                <span class="text-muted">Distance:</span>
+                                <span>25 km</span>
+                            </div>
+                            <div class="d-flex justify-content-between mb-1">
+                                <span class="text-muted">Duration:</span>
+                                <span>35 min</span>
+                            </div>
+                            <hr>
+                            <h5 class="fw-bold mb-3">Why Book With Us?</h5>
+                            <div class="d-flex mb-3">
+                                <div class="me-3 text-primary">
+                                    <i class="fas fa-check-circle fa-2x"></i>
+                                </div>
+                                <div>
+                                    <h6 class="mb-1">Fixed Prices</h6>
+                                    <p class="small text-muted mb-0">No surprise charges or hidden fees</p>
+                                </div>
+                            </div>
+                            <div class="d-flex mb-3">
+                                <div class="me-3 text-primary">
+                                    <i class="fas fa-check-circle fa-2x"></i>
+                                </div>
+                                <div>
+                                    <h6 class="mb-1">24/7 Support</h6>
+                                    <p class="small text-muted mb-0">We're here to help anytime</p>
+                                </div>
+                            </div>
+                            <div class="d-flex">
+                                <div class="me-3 text-primary">
+                                    <i class="fas fa-check-circle fa-2x"></i>
+                                </div>
+                                <div>
+                                    <h6 class="mb-1">Verified Drivers</h6>
+                                    <p class="small text-muted mb-0">Professional and background-checked</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Booking Modal -->
+    <div class="modal fade" id="bookingModal" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="transportModalTitle">Premium Sedan</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <img src="https://images.unsplash.com/photo-1541899481282-d53bffe3c35d?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=80" class="img-fluid rounded mb-3" alt="Transport Image">
+                            <div class="mb-3">
+                                <h6>Vehicle Details</h6>
+                                <p class="mb-1"><strong>Model:</strong> Toyota Camry 2022</p>
+                                <p class="mb-1"><strong>Capacity:</strong> 3 passengers, 2 bags</p>
+                                <p class="mb-1"><strong>Features:</strong> Air conditioning, WiFi, Charging ports</p>
+                            </div>
+                            <div class="mb-3">
+                                <h6>Trip Details</h6>
+                                <div class="d-flex justify-content-between mb-2">
+                                    <div>
+                                        <p class="mb-0"><strong>Pickup:</strong></p>
+                                        <p class="mb-0" id="pickupLocationText">Airport Terminal 1</p>
+                                        <p class="mb-0" id="pickupDateTime">Wed, Jun 15, 2023 at 10:00 AM</p>
+                                    </div>
+                                    <div>
+                                        <p class="mb-0"><strong>Drop-off:</strong></p>
+                                        <p class="mb-0" id="dropoffLocationText">Downtown Hotel</p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="mb-3">
+                                <h6>Special Requests</h6>
+                                <textarea class="form-control" rows="3" placeholder="Child seats, wheelchair access, etc."></textarea>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <h5 class="mb-3">Booking Summary</h5>
+                            <div class="card mb-3">
+                                <div class="card-body">
+                                    <div class="d-flex justify-content-between mb-2">
+                                        <span>Vehicle:</span>
+                                        <span>Premium Sedan</span>
+                                    </div>
+                                    <div class="d-flex justify-content-between mb-2">
+                                        <span>Base Fare:</span>
+                                        <span>$45.00</span>
+                                    </div>
+                                    <div class="d-flex justify-content-between mb-2">
+                                        <span>Estimated Taxes:</span>
+                                        <span>$4.50</span>
+                                    </div>
+                                    <div class="d-flex justify-content-between mb-2">
+                                        <span>Service Fee:</span>
+                                        <span>$2.00</span>
+                                    </div>
+                                    <hr>
+                                    <div class="d-flex justify-content-between fw-bold">
+                                        <span>Total:</span>
+                                        <span>$51.50</span>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="mb-3">
+                                <h6>Contact Information</h6>
+                                <div class="mb-2">
+                                    <label for="bookingName" class="form-label">Full Name</label>
+                                    <input type="text" class="form-control" id="bookingName" required>
+                                </div>
+                                <div class="mb-2">
+                                    <label for="bookingEmail" class="form-label">Email</label>
+                                    <input type="email" class="form-control" id="bookingEmail" required>
+                                </div>
+                                <div class="mb-2">
+                                    <label for="bookingPhone" class="form-label">Phone Number</label>
+                                    <input type="tel" class="form-control" id="bookingPhone" required>
+                                </div>
+                            </div>
+                            
+                            <div class="d-grid gap-2">
+                                <button class="btn btn-primary" id="confirmBookingBtn">
+                                    <i class="fas fa-check-circle me-1"></i> Confirm Booking
+                                </button>
+                                <button class="btn btn-outline-primary" id="addToCartBtn">
+                                    <i class="fas fa-cart-plus me-1"></i> Add to Cart
+                                </button>
+                            </div>
+                            
+                            <div class="mt-3 small text-muted">
+                                <p>By completing your booking you agree to our <a href="#">Terms of Service</a>.</p>
+                                <p>Free cancellation up to 24 hours before pickup.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Include Footer -->
+    <div id="footer-placeholder"></div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="script.js"></script>
+    <script>
+        $(document).ready(function() {
+            // Initialize date picker with current date
+            const today = new Date();
+            $('#transportDate').val(today.toISOString().split('T')[0]);
+            
+            // Initialize time picker with current time + 1 hour
+            const now = new Date();
+            now.setHours(now.getHours() + 1);
+            const hours = now.getHours().toString().padStart(2, '0');
+            const minutes = now.getMinutes().toString().padStart(2, '0');
+            $('#transportTime').val(`${hours}:${minutes}`);
+            
+            // Book button click handler
+            $('.book-btn').click(function() {
+                const transportId = $(this).data('transport-id');
+                const transportCard = $(this).closest('.transport-card');
+                const transportName = transportCard.find('.card-title').text();
+                const transportModel = transportCard.find('.text-muted.small').text();
+                const transportPrice = transportCard.find('.price-badge').text();
+                
+                // Update modal with transport details
+                $('#transportModalTitle').text(transportName);
+                $('.modal-body strong:contains("Model:")').next().text(transportModel);
+                $('.modal-body strong:contains("Base Fare:")').next().text(transportPrice);
+                
+                // Update trip details
+                const pickupLocation = $('#pickupLocation').val() || 'Airport Terminal 1';
+                const dropoffLocation = $('#dropoffLocation').val() || 'Downtown Hotel';
+                const transportDate = new Date($('#transportDate').val());
+                const transportTime = $('#transportTime').val();
+                
+                $('#pickupLocationText').text(pickupLocation);
+                $('#dropoffLocationText').text(dropoffLocation);
+                
+                const formattedDate = transportDate.toLocaleDateString('en-US', { 
+                    weekday: 'short', month: 'short', day: 'numeric', year: 'numeric' 
+                });
+                $('#pickupDateTime').text(`${formattedDate} at ${transportTime}`);
+                
+                // Show modal
+                const bookingModal = new bootstrap.Modal(document.getElementById('bookingModal'));
+                bookingModal.show();
+            });
+            
+            // Confirm booking button
+            $('#confirmBookingBtn').click(function() {
+                // Validate form
+                if (!$('#bookingName').val() || !$('#bookingEmail').val() || !$('#bookingPhone').val()) {
+                    alert('Please complete all required fields');
+                    return;
+                }
+                
+                // In a real app, you would process the booking here
+                alert('Booking confirmed! You will receive a confirmation email shortly.');
+                
+                // Close modal
+                const bookingModal = bootstrap.Modal.getInstance(document.getElementById('bookingModal'));
+                bookingModal.hide();
+            });
+            
+            // Add to cart button
+            $('#addToCartBtn').click(function() {
+                const transportCard = $('.book-btn[data-transport-id="' + $('#transportModalTitle').text() + '"]').closest('.transport-card');
+                const transportName = $('#transportModalTitle').text();
+                const transportPrice = transportCard.find('.price-badge').text().replace('$', '');
+                const pickupLocation = $('#pickupLocationText').text();
+                const dropoffLocation = $('#dropoffLocationText').text();
+                const pickupDateTime = $('#pickupDateTime').text();
+                
+                // Create transport data object
+                const transportData = {
+                    type: 'transport',
+                    id: transportCard.find('.book-btn').data('transport-id'),
+                    name: transportName,
+                    price: transportPrice,
+                    pickupLocation: pickupLocation,
+                    dropoffLocation: dropoffLocation,
+                    dateTime: pickupDateTime,
+                    passengers: $('#passengers').val(),
+                    luggage: $('#luggage').val()
+                };
+                
+                // Add to cart
+                addToCart(transportData);
+                
+                // Close modal
+                const bookingModal = bootstrap.Modal.getInstance(document.getElementById('bookingModal'));
+                bookingModal.hide();
+            });
+            
+            // Search form submission
+            $('#transportSearchForm').submit(function(e) {
+                e.preventDefault();
+                const pickupLocation = $('#pickupLocation').val();
+                const dropoffLocation = $('#dropoffLocation').val();
+                const transportDate = $('#transportDate').val();
+                const transportTime = $('#transportTime').val();
+                const passengers = $('#passengers').val();
+                const luggage = $('#luggage').val();
+                const vehicleType = $('#vehicleType').val();
+                
+                // Update search route display
+                $('#searchRoute').text(`${pickupLocation || 'Pickup'} to ${dropoffLocation || 'Drop-off'}`);
+                
+                // In a real app, you would make an AJAX call to search transport options
+                console.log('Searching transport:', {
+                    pickupLocation,
+                    dropoffLocation,
+                    transportDate,
+                    transportTime,
+                    passengers,
+                    luggage,
+                    vehicleType
+                });
+            });
+        });
+        
+        // Function to add item to cart
+        function addToCart(item) {
+            let cart = JSON.parse(localStorage.getItem('cart')) || [];
+            cart.push(item);
+            localStorage.setItem('cart', JSON.stringify(cart));
+            updateCartCount();
+            alert(`${item.name} has been added to your cart!`);
+        }
+        
+        // Function to update cart count in navbar
+        function updateCartCount() {
+            const cart = JSON.parse(localStorage.getItem('cart')) || [];
+            const cartBadges = document.querySelectorAll('.fa-shopping-cart + .badge');
+            
+            cartBadges.forEach(badge => {
+                badge.textContent = cart.length;
+            });
+        }
+    </script>
+</body>
+</html>

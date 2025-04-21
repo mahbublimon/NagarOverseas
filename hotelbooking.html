@@ -1,0 +1,700 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hotel Booking - Nagar Overseas</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+    <style>
+        .hotel-card {
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            margin-bottom: 20px;
+            height: 100%;
+        }
+        .hotel-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+        }
+        .hotel-img {
+            height: 200px;
+            object-fit: cover;
+        }
+        .amenity-icon {
+            width: 20px;
+            text-align: center;
+            margin-right: 5px;
+        }
+        .price-badge {
+            font-size: 1.1rem;
+            padding: 0.5rem 1rem;
+        }
+        .country-flag {
+            width: 24px;
+            height: 16px;
+            margin-right: 8px;
+            border: 1px solid #ddd;
+        }
+        #bookingModal .modal-dialog {
+            max-width: 800px;
+        }
+        .room-option {
+            border: 1px solid #dee2e6;
+            border-radius: 5px;
+            padding: 15px;
+            margin-bottom: 15px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        .room-option:hover {
+            border-color: #0d6efd;
+            background-color: rgba(13, 110, 253, 0.05);
+        }
+        .room-option.selected {
+            border-color: #0d6efd;
+            background-color: rgba(13, 110, 253, 0.1);
+        }
+        .datepicker {
+            z-index: 1051 !important;
+        }
+    </style>
+</head>
+<body>
+    <!-- Include Navbar -->
+    <div id="navbar-placeholder"></div>
+
+    <!-- Hero Section -->
+    <section class="hero-section bg-primary text-white py-5">
+        <div class="container py-4">
+            <div class="row align-items-center">
+                <div class="col-lg-6">
+                    <h1 class="display-4 fw-bold mb-3">Find Your Perfect Stay</h1>
+                    <p class="lead mb-4">Book hotels in over 100 countries with Nagar Overseas. Best price guarantee!</p>
+                </div>
+                <div class="col-lg-6">
+                    <img src="images/hotel-hero.png" alt="Hotel Booking" class="img-fluid rounded">
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Search Filters -->
+    <section class="bg-light py-4 shadow-sm">
+        <div class="container">
+            <div class="card">
+                <div class="card-body">
+                    <form id="hotelSearchForm">
+                        <div class="row g-3">
+                            <div class="col-md-3">
+                                <label for="destination" class="form-label">Destination</label>
+                                <input type="text" class="form-control" id="destination" placeholder="City, Country">
+                            </div>
+                            <div class="col-md-2">
+                                <label for="checkIn" class="form-label">Check-in</label>
+                                <input type="date" class="form-control" id="checkIn">
+                            </div>
+                            <div class="col-md-2">
+                                <label for="checkOut" class="form-label">Check-out</label>
+                                <input type="date" class="form-control" id="checkOut">
+                            </div>
+                            <div class="col-md-2">
+                                <label for="guests" class="form-label">Guests</label>
+                                <select class="form-select" id="guests">
+                                    <option value="1">1 Guest</option>
+                                    <option value="2" selected>2 Guests</option>
+                                    <option value="3">3 Guests</option>
+                                    <option value="4">4 Guests</option>
+                                    <option value="5">5+ Guests</option>
+                                </select>
+                            </div>
+                            <div class="col-md-2">
+                                <label for="rooms" class="form-label">Rooms</label>
+                                <select class="form-select" id="rooms">
+                                    <option value="1">1 Room</option>
+                                    <option value="2">2 Rooms</option>
+                                    <option value="3">3 Rooms</option>
+                                </select>
+                            </div>
+                            <div class="col-md-1 d-flex align-items-end">
+                                <button type="submit" class="btn btn-primary w-100">
+                                    <i class="fas fa-search"></i> Search
+                                </button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Hotel Listings -->
+    <section class="py-5">
+        <div class="container">
+            <div class="row mb-4">
+                <div class="col-md-6">
+                    <h2 class="fw-bold">Available Hotels</h2>
+                    <p class="text-muted">Showing results for <span id="searchLocation">Popular Destinations</span></p>
+                </div>
+                <div class="col-md-6 text-md-end">
+                    <div class="dropdown d-inline-block me-2">
+                        <button class="btn btn-outline-secondary dropdown-toggle" type="button" id="sortDropdown" data-bs-toggle="dropdown">
+                            Sort by: Recommended
+                        </button>
+                        <ul class="dropdown-menu" aria-labelledby="sortDropdown">
+                            <li><a class="dropdown-item" href="#" data-sort="recommended">Recommended</a></li>
+                            <li><a class="dropdown-item" href="#" data-sort="price-low">Price (Low to High)</a></li>
+                            <li><a class="dropdown-item" href="#" data-sort="price-high">Price (High to Low)</a></li>
+                            <li><a class="dropdown-item" href="#" data-sort="rating">Guest Rating</a></li>
+                            <li><a class="dropdown-item" href="#" data-sort="stars">Star Rating</a></li>
+                        </ul>
+                    </div>
+                    <div class="dropdown d-inline-block">
+                        <button class="btn btn-outline-secondary dropdown-toggle" type="button" id="filterDropdown" data-bs-toggle="dropdown">
+                            Filters
+                        </button>
+                        <ul class="dropdown-menu" aria-labelledby="filterDropdown">
+                            <li class="px-3 py-2">
+                                <h6 class="dropdown-header">Price Range</h6>
+                                <div class="mb-2">
+                                    <input type="range" class="form-range" min="50" max="500" step="50" id="priceRange">
+                                    <div class="d-flex justify-content-between">
+                                        <small>$50</small>
+                                        <small>$500+</small>
+                                    </div>
+                                </div>
+                            </li>
+                            <li class="px-3 py-2">
+                                <h6 class="dropdown-header">Star Rating</h6>
+                                <div class="form-check">
+                                    <input class="form-check-input" type="checkbox" id="filter5star" checked>
+                                    <label class="form-check-label" for="filter5star">
+                                        <i class="fas fa-star text-warning"></i>
+                                        <i class="fas fa-star text-warning"></i>
+                                        <i class="fas fa-star text-warning"></i>
+                                        <i class="fas fa-star text-warning"></i>
+                                        <i class="fas fa-star text-warning"></i>
+                                    </label>
+                                </div>
+                                <div class="form-check">
+                                    <input class="form-check-input" type="checkbox" id="filter4star" checked>
+                                    <label class="form-check-label" for="filter4star">
+                                        <i class="fas fa-star text-warning"></i>
+                                        <i class="fas fa-star text-warning"></i>
+                                        <i class="fas fa-star text-warning"></i>
+                                        <i class="fas fa-star text-warning"></i>
+                                        <i class="far fa-star text-warning"></i>
+                                    </label>
+                                </div>
+                                <div class="form-check">
+                                    <input class="form-check-input" type="checkbox" id="filter3star" checked>
+                                    <label class="form-check-label" for="filter3star">
+                                        <i class="fas fa-star text-warning"></i>
+                                        <i class="fas fa-star text-warning"></i>
+                                        <i class="fas fa-star text-warning"></i>
+                                        <i class="far fa-star text-warning"></i>
+                                        <i class="far fa-star text-warning"></i>
+                                    </label>
+                                </div>
+                            </li>
+                            <li class="px-3 py-2">
+                                <h6 class="dropdown-header">Amenities</h6>
+                                <div class="form-check">
+                                    <input class="form-check-input" type="checkbox" id="filterWifi" checked>
+                                    <label class="form-check-label" for="filterWifi">Free WiFi</label>
+                                </div>
+                                <div class="form-check">
+                                    <input class="form-check-input" type="checkbox" id="filterPool">
+                                    <label class="form-check-label" for="filterPool">Swimming Pool</label>
+                                </div>
+                                <div class="form-check">
+                                    <input class="form-check-input" type="checkbox" id="filterGym">
+                                    <label class="form-check-label" for="filterGym">Gym</label>
+                                </div>
+                                <div class="form-check">
+                                    <input class="form-check-input" type="checkbox" id="filterBreakfast">
+                                    <label class="form-check-label" for="filterBreakfast">Free Breakfast</label>
+                                </div>
+                            </li>
+                            <li><hr class="dropdown-divider"></li>
+                            <li class="px-3">
+                                <button class="btn btn-primary w-100">Apply Filters</button>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row" id="hotelResults">
+                <!-- Hotel cards will be loaded here -->
+                <div class="col-lg-4 col-md-6">
+                    <div class="card hotel-card">
+                        <img src="https://images.unsplash.com/photo-1551882547-ff40c63fe5fa?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=80" class="card-img-top hotel-img" alt="Luxury Hotel">
+                        <div class="card-body">
+                            <div class="d-flex justify-content-between align-items-start mb-2">
+                                <div>
+                                    <h5 class="card-title mb-1">Grand Plaza Hotel</h5>
+                                    <p class="text-muted mb-1">
+                                        <img src="https://flagcdn.com/w20/us.png" class="country-flag" alt="USA">
+                                        New York, USA
+                                    </p>
+                                    <div class="mb-2">
+                                        <i class="fas fa-star text-warning"></i>
+                                        <i class="fas fa-star text-warning"></i>
+                                        <i class="fas fa-star text-warning"></i>
+                                        <i class="fas fa-star text-warning"></i>
+                                        <i class="fas fa-star text-warning"></i>
+                                        <span class="small text-muted">(428 reviews)</span>
+                                    </div>
+                                </div>
+                                <div class="text-end">
+                                    <div class="badge bg-success text-white mb-1">8.5 Excellent</div>
+                                    <div class="price-badge bg-primary text-white rounded">$245</div>
+                                    <small class="text-muted d-block">per night</small>
+                                </div>
+                            </div>
+                            <div class="amenities mb-3">
+                                <span class="me-2"><i class="fas fa-wifi amenity-icon"></i> Free WiFi</span>
+                                <span class="me-2"><i class="fas fa-swimming-pool amenity-icon"></i> Pool</span>
+                                <span><i class="fas fa-utensils amenity-icon"></i> Restaurant</span>
+                            </div>
+                            <button class="btn btn-outline-primary w-100 book-btn" data-hotel-id="1">
+                                View Rooms
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-lg-4 col-md-6">
+                    <div class="card hotel-card">
+                        <img src="https://images.unsplash.com/photo-1520250497591-112f2f40a3f4?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=80" class="card-img-top hotel-img" alt="Beach Resort">
+                        <div class="card-body">
+                            <div class="d-flex justify-content-between align-items-start mb-2">
+                                <div>
+                                    <h5 class="card-title mb-1">Paradise Beach Resort</h5>
+                                    <p class="text-muted mb-1">
+                                        <img src="https://flagcdn.com/w20/th.png" class="country-flag" alt="Thailand">
+                                        Phuket, Thailand
+                                    </p>
+                                    <div class="mb-2">
+                                        <i class="fas fa-star text-warning"></i>
+                                        <i class="fas fa-star text-warning"></i>
+                                        <i class="fas fa-star text-warning"></i>
+                                        <i class="fas fa-star text-warning"></i>
+                                        <i class="fas fa-star-half-alt text-warning"></i>
+                                        <span class="small text-muted">(312 reviews)</span>
+                                    </div>
+                                </div>
+                                <div class="text-end">
+                                    <div class="badge bg-success text-white mb-1">9.2 Superb</div>
+                                    <div class="price-badge bg-primary text-white rounded">$180</div>
+                                    <small class="text-muted d-block">per night</small>
+                                </div>
+                            </div>
+                            <div class="amenities mb-3">
+                                <span class="me-2"><i class="fas fa-wifi amenity-icon"></i> Free WiFi</span>
+                                <span class="me-2"><i class="fas fa-swimming-pool amenity-icon"></i> Pool</span>
+                                <span><i class="fas fa-umbrella-beach amenity-icon"></i> Beachfront</span>
+                            </div>
+                            <button class="btn btn-outline-primary w-100 book-btn" data-hotel-id="2">
+                                View Rooms
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-lg-4 col-md-6">
+                    <div class="card hotel-card">
+                        <img src="https://images.unsplash.com/photo-1535827841776-24afc1e255ac?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=80" class="card-img-top hotel-img" alt="City Hotel">
+                        <div class="card-body">
+                            <div class="d-flex justify-content-between align-items-start mb-2">
+                                <div>
+                                    <h5 class="card-title mb-1">Metropolitan Suites</h5>
+                                    <p class="text-muted mb-1">
+                                        <img src="https://flagcdn.com/w20/gb.png" class="country-flag" alt="UK">
+                                        London, UK
+                                    </p>
+                                    <div class="mb-2">
+                                        <i class="fas fa-star text-warning"></i>
+                                        <i class="fas fa-star text-warning"></i>
+                                        <i class="fas fa-star text-warning"></i>
+                                        <i class="fas fa-star text-warning"></i>
+                                        <i class="far fa-star text-warning"></i>
+                                        <span class="small text-muted">(276 reviews)</span>
+                                    </div>
+                                </div>
+                                <div class="text-end">
+                                    <div class="badge bg-success text-white mb-1">8.1 Very Good</div>
+                                    <div class="price-badge bg-primary text-white rounded">$320</div>
+                                    <small class="text-muted d-block">per night</small>
+                                </div>
+                            </div>
+                            <div class="amenities mb-3">
+                                <span class="me-2"><i class="fas fa-wifi amenity-icon"></i> Free WiFi</span>
+                                <span class="me-2"><i class="fas fa-dumbbell amenity-icon"></i> Gym</span>
+                                <span><i class="fas fa-concierge-bell amenity-icon"></i> 24/7 Service</span>
+                            </div>
+                            <button class="btn btn-outline-primary w-100 book-btn" data-hotel-id="3">
+                                View Rooms
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-lg-4 col-md-6">
+                    <div class="card hotel-card">
+                        <img src="https://images.unsplash.com/photo-1566073771259-6a8506099945?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=80" class="card-img-top hotel-img" alt="Mountain Resort">
+                        <div class="card-body">
+                            <div class="d-flex justify-content-between align-items-start mb-2">
+                                <div>
+                                    <h5 class="card-title mb-1">Alpine Mountain Lodge</h5>
+                                    <p class="text-muted mb-1">
+                                        <img src="https://flagcdn.com/w20/ch.png" class="country-flag" alt="Switzerland">
+                                        Zermatt, Switzerland
+                                    </p>
+                                    <div class="mb-2">
+                                        <i class="fas fa-star text-warning"></i>
+                                        <i class="fas fa-star text-warning"></i>
+                                        <i class="fas fa-star text-warning"></i>
+                                        <i class="fas fa-star text-warning"></i>
+                                        <i class="fas fa-star text-warning"></i>
+                                        <span class="small text-muted">(189 reviews)</span>
+                                    </div>
+                                </div>
+                                <div class="text-end">
+                                    <div class="badge bg-success text-white mb-1">9.5 Superb</div>
+                                    <div class="price-badge bg-primary text-white rounded">$420</div>
+                                    <small class="text-muted d-block">per night</small>
+                                </div>
+                            </div>
+                            <div class="amenities mb-3">
+                                <span class="me-2"><i class="fas fa-wifi amenity-icon"></i> Free WiFi</span>
+                                <span class="me-2"><i class="fas fa-fire amenity-icon"></i> Fireplace</span>
+                                <span><i class="fas fa-skiing amenity-icon"></i> Ski-in/Ski-out</span>
+                            </div>
+                            <button class="btn btn-outline-primary w-100 book-btn" data-hotel-id="4">
+                                View Rooms
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-lg-4 col-md-6">
+                    <div class="card hotel-card">
+                        <img src="https://images.unsplash.com/photo-1522798514-97ceb8c4f1c8?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=80" class="card-img-top hotel-img" alt="Desert Resort">
+                        <div class="card-body">
+                            <div class="d-flex justify-content-between align-items-start mb-2">
+                                <div>
+                                    <h5 class="card-title mb-1">Oasis Desert Resort</h5>
+                                    <p class="text-muted mb-1">
+                                        <img src="https://flagcdn.com/w20/ae.png" class="country-flag" alt="UAE">
+                                        Dubai, UAE
+                                    </p>
+                                    <div class="mb-2">
+                                        <i class="fas fa-star text-warning"></i>
+                                        <i class="fas fa-star text-warning"></i>
+                                        <i class="fas fa-star text-warning"></i>
+                                        <i class="fas fa-star text-warning"></i>
+                                        <i class="fas fa-star text-warning"></i>
+                                        <span class="small text-muted">(542 reviews)</span>
+                                    </div>
+                                </div>
+                                <div class="text-end">
+                                    <div class="badge bg-success text-white mb-1">9.0 Superb</div>
+                                    <div class="price-badge bg-primary text-white rounded">$380</div>
+                                    <small class="text-muted d-block">per night</small>
+                                </div>
+                            </div>
+                            <div class="amenities mb-3">
+                                <span class="me-2"><i class="fas fa-wifi amenity-icon"></i> Free WiFi</span>
+                                <span class="me-2"><i class="fas fa-swimming-pool amenity-icon"></i> Pool</span>
+                                <span><i class="fas fa-spa amenity-icon"></i> Spa</span>
+                            </div>
+                            <button class="btn btn-outline-primary w-100 book-btn" data-hotel-id="5">
+                                View Rooms
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-lg-4 col-md-6">
+                    <div class="card hotel-card">
+                        <img src="https://images.unsplash.com/photo-1540541338287-41700207dee6?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=80" class="card-img-top hotel-img" alt="Boutique Hotel">
+                        <div class="card-body">
+                            <div class="d-flex justify-content-between align-items-start mb-2">
+                                <div>
+                                    <h5 class="card-title mb-1">Sakura Boutique Hotel</h5>
+                                    <p class="text-muted mb-1">
+                                        <img src="https://flagcdn.com/w20/jp.png" class="country-flag" alt="Japan">
+                                        Tokyo, Japan
+                                    </p>
+                                    <div class="mb-2">
+                                        <i class="fas fa-star text-warning"></i>
+                                        <i class="fas fa-star text-warning"></i>
+                                        <i class="fas fa-star text-warning"></i>
+                                        <i class="fas fa-star text-warning"></i>
+                                        <i class="far fa-star text-warning"></i>
+                                        <span class="small text-muted">(387 reviews)</span>
+                                    </div>
+                                </div>
+                                <div class="text-end">
+                                    <div class="badge bg-success text-white mb-1">8.7 Excellent</div>
+                                    <div class="price-badge bg-primary text-white rounded">$290</div>
+                                    <small class="text-muted d-block">per night</small>
+                                </div>
+                            </div>
+                            <div class="amenities mb-3">
+                                <span class="me-2"><i class="fas fa-wifi amenity-icon"></i> Free WiFi</span>
+                                <span class="me-2"><i class="fas fa-bicycle amenity-icon"></i> Bike Rental</span>
+                                <span><i class="fas fa-onsen amenity-icon"></i> Onsen</span>
+                            </div>
+                            <button class="btn btn-outline-primary w-100 book-btn" data-hotel-id="6">
+                                View Rooms
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <nav aria-label="Page navigation" class="mt-4">
+                <ul class="pagination justify-content-center">
+                    <li class="page-item disabled">
+                        <a class="page-link" href="#" tabindex="-1">Previous</a>
+                    </li>
+                    <li class="page-item active"><a class="page-link" href="#">1</a></li>
+                    <li class="page-item"><a class="page-link" href="#">2</a></li>
+                    <li class="page-item"><a class="page-link" href="#">3</a></li>
+                    <li class="page-item">
+                        <a class="page-link" href="#">Next</a>
+                    </li>
+                </ul>
+            </nav>
+        </div>
+    </section>
+
+    <!-- Booking Modal -->
+    <div class="modal fade" id="bookingModal" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="hotelModalTitle">Grand Plaza Hotel</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <img src="https://images.unsplash.com/photo-1551882547-ff40c63fe5fa?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=80" class="img-fluid rounded mb-3" alt="Hotel Image">
+                            <div class="d-flex justify-content-between mb-3">
+                                <div>
+                                    <h6>Check-in</h6>
+                                    <p id="checkInDate">Wed, Jun 15, 2023</p>
+                                </div>
+                                <div>
+                                    <h6>Check-out</h6>
+                                    <p id="checkOutDate">Fri, Jun 17, 2023</p>
+                                </div>
+                                <div>
+                                    <h6>Guests</h6>
+                                    <p>2 Adults</p>
+                                </div>
+                            </div>
+                            <div class="mb-4">
+                                <h6>Amenities</h6>
+                                <div class="row">
+                                    <div class="col-6">
+                                        <p><i class="fas fa-wifi me-2"></i> Free WiFi</p>
+                                        <p><i class="fas fa-swimming-pool me-2"></i> Swimming Pool</p>
+                                        <p><i class="fas fa-utensils me-2"></i> Restaurant</p>
+                                    </div>
+                                    <div class="col-6">
+                                        <p><i class="fas fa-dumbbell me-2"></i> Fitness Center</p>
+                                        <p><i class="fas fa-parking me-2"></i> Free Parking</p>
+                                        <p><i class="fas fa-concierge-bell me-2"></i> 24/7 Front Desk</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <h5 class="mb-3">Select Room Type</h5>
+                            
+                            <div class="room-option" data-room-id="1">
+                                <div class="d-flex justify-content-between">
+                                    <div>
+                                        <h6>Deluxe Room</h6>
+                                        <p class="small text-muted">1 King Bed, 35 m²</p>
+                                    </div>
+                                    <div class="text-end">
+                                        <h5>$245</h5>
+                                        <p class="small text-muted">per night</p>
+                                    </div>
+                                </div>
+                                <div class="room-features">
+                                    <span class="badge bg-light text-dark me-1 mb-1"><i class="fas fa-wifi"></i> WiFi</span>
+                                    <span class="badge bg-light text-dark me-1 mb-1"><i class="fas fa-coffee"></i> Breakfast</span>
+                                    <span class="badge bg-light text-dark me-1 mb-1"><i class="fas fa-snowflake"></i> AC</span>
+                                    <span class="badge bg-light text-dark me-1 mb-1"><i class="fas fa-tv"></i> TV</span>
+                                </div>
+                            </div>
+                            
+                            <div class="room-option" data-room-id="2">
+                                <div class="d-flex justify-content-between">
+                                    <div>
+                                        <h6>Executive Suite</h6>
+                                        <p class="small text-muted">1 King Bed, 55 m², City View</p>
+                                    </div>
+                                    <div class="text-end">
+                                        <h5>$320</h5>
+                                        <p class="small text-muted">per night</p>
+                                    </div>
+                                </div>
+                                <div class="room-features">
+                                    <span class="badge bg-light text-dark me-1 mb-1"><i class="fas fa-wifi"></i> WiFi</span>
+                                    <span class="badge bg-light text-dark me-1 mb-1"><i class="fas fa-coffee"></i> Breakfast</span>
+                                    <span class="badge bg-light text-dark me-1 mb-1"><i class="fas fa-snowflake"></i> AC</span>
+                                    <span class="badge bg-light text-dark me-1 mb-1"><i class="fas fa-tv"></i> TV</span>
+                                    <span class="badge bg-light text-dark me-1 mb-1"><i class="fas fa-couch"></i> Lounge</span>
+                                </div>
+                            </div>
+                            
+                            <div class="room-option" data-room-id="3">
+                                <div class="d-flex justify-content-between">
+                                    <div>
+                                        <h6>Premium Suite</h6>
+                                        <p class="small text-muted">1 King Bed, 75 m², Balcony</p>
+                                    </div>
+                                    <div class="text-end">
+                                        <h5>$420</h5>
+                                        <p class="small text-muted">per night</p>
+                                    </div>
+                                </div>
+                                <div class="room-features">
+                                    <span class="badge bg-light text-dark me-1 mb-1"><i class="fas fa-wifi"></i> WiFi</span>
+                                    <span class="badge bg-light text-dark me-1 mb-1"><i class="fas fa-coffee"></i> Breakfast</span>
+                                    <span class="badge bg-light text-dark me-1 mb-1"><i class="fas fa-snowflake"></i> AC</span>
+                                    <span class="badge bg-light text-dark me-1 mb-1"><i class="fas fa-tv"></i> TV</span>
+                                    <span class="badge bg-light text-dark me-1 mb-1"><i class="fas fa-hot-tub"></i> Jacuzzi</span>
+                                </div>
+                            </div>
+                            
+                            <div class="d-grid gap-2 mt-4">
+                                <button class="btn btn-primary" id="addToCartBtn">
+                                    <i class="fas fa-cart-plus me-2"></i> Add to Cart
+                                </button>
+                                <button class="btn btn-outline-primary" id="bookNowBtn">
+                                    <i class="fas fa-calendar-check me-2"></i> Book Now
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Include Footer -->
+    <div id="footer-placeholder"></div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="script.js"></script>
+    <script src="hotelbooking.js"></script>
+    <script>
+        $(document).ready(function() {
+            // Initialize date pickers
+            const today = new Date();
+            const tomorrow = new Date(today);
+            tomorrow.setDate(tomorrow.getDate() + 1);
+            
+            $('#checkIn').val(today.toISOString().split('T')[0]);
+            $('#checkOut').val(tomorrow.toISOString().split('T')[0]);
+            
+            // Room selection
+            $('.room-option').click(function() {
+                $('.room-option').removeClass('selected');
+                $(this).addClass('selected');
+            });
+            
+            // Book button click
+            $('.book-btn').click(function() {
+                const hotelId = $(this).data('hotel-id');
+                const hotelCard = $(this).closest('.hotel-card');
+                const hotelName = hotelCard.find('.card-title').text();
+                
+                $('#hotelModalTitle').text(hotelName);
+                
+                // Update modal with hotel details
+                const checkInDate = new Date($('#checkIn').val());
+                const checkOutDate = new Date($('#checkOut').val());
+                
+                $('#checkInDate').text(checkInDate.toLocaleDateString('en-US', { 
+                    weekday: 'short', month: 'short', day: 'numeric', year: 'numeric' 
+                }));
+                
+                $('#checkOutDate').text(checkOutDate.toLocaleDateString('en-US', { 
+                    weekday: 'short', month: 'short', day: 'numeric', year: 'numeric' 
+                }));
+                
+                // Show modal
+                const bookingModal = new bootstrap.Modal(document.getElementById('bookingModal'));
+                bookingModal.show();
+            });
+            
+            // Add to cart button
+            $('#addToCartBtn').click(function() {
+                const selectedRoom = $('.room-option.selected');
+                if (selectedRoom.length === 0) {
+                    alert('Please select a room first');
+                    return;
+                }
+                
+                const roomId = selectedRoom.data('room-id');
+                const roomName = selectedRoom.find('h6').text();
+                const roomPrice = selectedRoom.find('h5').text();
+                
+                // In a real app, you would add this to the cart via AJAX
+                alert(`Added to cart: ${roomName} for ${roomPrice}`);
+                
+                // Update cart count
+                const currentCount = parseInt($('.fa-shopping-cart').next('.badge').text());
+                $('.fa-shopping-cart').next('.badge').text(currentCount + 1);
+                
+                // Close modal
+                const bookingModal = bootstrap.Modal.getInstance(document.getElementById('bookingModal'));
+                bookingModal.hide();
+            });
+            
+            // Book now button
+            $('#bookNowBtn').click(function() {
+                const selectedRoom = $('.room-option.selected');
+                if (selectedRoom.length === 0) {
+                    alert('Please select a room first');
+                    return;
+                }
+                
+                const roomId = selectedRoom.data('room-id');
+                const roomName = selectedRoom.find('h6').text();
+                const roomPrice = selectedRoom.find('h5').text();
+                
+                // In a real app, you would redirect to checkout with the booking details
+                alert(`Booking: ${roomName} for ${roomPrice} - Redirecting to checkout`);
+                window.location.href = 'checkout.html';
+            });
+            
+            // Search form submission
+            $('#hotelSearchForm').submit(function(e) {
+                e.preventDefault();
+                const destination = $('#destination').val();
+                const checkIn = $('#checkIn').val();
+                const checkOut = $('#checkOut').val();
+                const guests = $('#guests').val();
+                const rooms = $('#rooms').val();
+                
+                // In a real app, you would make an AJAX call to search hotels
+                $('#searchLocation').text(destination || 'Popular Destinations');
+                alert(`Searching hotels in ${destination} from ${checkIn} to ${checkOut} for ${guests} guests, ${rooms} rooms`);
+            });
+        });
+    </script>
+</body>
+</html>

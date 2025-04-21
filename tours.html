@@ -1,0 +1,450 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tours - Nagar Overseas</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        /* Custom Hero Section */
+        .tours-hero-section {
+            background: linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.6)), 
+                        url('https://images.unsplash.com/photo-1488085061387-422e29b40080?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1631&q=80');
+            background-size: cover;
+            background-position: center;
+            height: 60vh;
+            min-height: 400px;
+            display: flex;
+            align-items: center;
+            color: white;
+        }
+        
+        /* Tour Card Hover Effect */
+        .tour-card {
+            transition: transform 0.3s ease;
+            overflow: hidden;
+            border-radius: 10px;
+        }
+        .tour-card:hover {
+            transform: translateY(-10px);
+        }
+        .tour-card img {
+            height: 250px;
+            object-fit: cover;
+            transition: transform 0.5s ease;
+        }
+        .tour-card:hover img {
+            transform: scale(1.05);
+        }
+        
+        /* Icon Box Animation */
+        .icon-box {
+            width: 70px;
+            height: 70px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+            margin: 0 auto;
+            transition: all 0.3s ease;
+        }
+        .icon-box:hover {
+            transform: rotate(10deg) scale(1.1);
+        }
+        .bg-primary-light {
+            background-color: rgba(13, 110, 253, 0.1);
+        }
+        
+        /* Category Card Hover */
+        .tour-category-card {
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+        .tour-category-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0,0,0,0.1) !important;
+        }
+        
+        /* Modal Styles */
+        .accordion-button:not(.collapsed) {
+            background-color: rgba(13, 110, 253, 0.1);
+            color: #0d6efd;
+        }
+    </style>
+</head>
+
+<body>
+    <!-- Dynamic Navbar -->
+    <div id="navbar-placeholder"></div>
+    
+    <!-- Tours Hero -->
+    <section class="tours-hero-section">
+        <div class="container h-100">
+            <div class="row h-100 align-items-center">
+                <div class="col-lg-8 mx-auto text-center">
+                    <h1 class="display-3 fw-bold text-white mb-4">Curated Global Tours</h1>
+                    <p class="lead text-white">Expertly designed experiences for every type of traveler</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Tour Categories -->
+    <section class="py-5 bg-light">
+        <div class="container py-5">
+            <div class="text-center mb-5">
+                <h2 class="fw-bold">Tour <span class="text-primary">Categories</span></h2>
+                <p class="lead">Find the perfect trip for your travel style</p>
+            </div>
+            <div class="row g-4">
+                <div class="col-md-6 col-lg-3">
+                    <div class="card border-0 shadow-sm h-100 tour-category-card" data-category="adventure">
+                        <div class="card-body text-center p-4">
+                            <div class="icon-box bg-primary-light text-primary mb-4">
+                                <i class="fas fa-mountain fa-2x"></i>
+                            </div>
+                            <h5>Adventure Tours</h5>
+                            <p class="mb-0">Thrilling experiences for adrenaline seekers</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6 col-lg-3">
+                    <div class="card border-0 shadow-sm h-100 tour-category-card" data-category="cultural">
+                        <div class="card-body text-center p-4">
+                            <div class="icon-box bg-primary-light text-primary mb-4">
+                                <i class="fas fa-landmark fa-2x"></i>
+                            </div>
+                            <h5>Cultural Tours</h5>
+                            <p class="mb-0">Immerse yourself in local traditions</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6 col-lg-3">
+                    <div class="card border-0 shadow-sm h-100 tour-category-card" data-category="luxury">
+                        <div class="card-body text-center p-4">
+                            <div class="icon-box bg-primary-light text-primary mb-4">
+                                <i class="fas fa-gem fa-2x"></i>
+                            </div>
+                            <h5>Luxury Tours</h5>
+                            <p class="mb-0">Premium experiences with top-tier accommodations</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6 col-lg-3">
+                    <div class="card border-0 shadow-sm h-100 tour-category-card" data-category="family">
+                        <div class="card-body text-center p-4">
+                            <div class="icon-box bg-primary-light text-primary mb-4">
+                                <i class="fas fa-child fa-2x"></i>
+                            </div>
+                            <h5>Family Tours</h5>
+                            <p class="mb-0">Kid-friendly adventures for all ages</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Featured Tours -->
+    <section class="py-5">
+        <div class="container py-5">
+            <div class="text-center mb-5">
+                <h2 class="fw-bold">Featured <span class="text-primary">Tours</span></h2>
+                <p class="lead">Our most popular global experiences</p>
+            </div>
+            <div class="row g-4">
+                <!-- Bali Adventure Tour -->
+                <div class="col-md-6 col-lg-4">
+                    <div class="card border-0 shadow-sm h-100 tour-card" data-tour="bali-adventure">
+                        <img src="https://images.unsplash.com/photo-1526779259212-939e64788e3c?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1474&q=80" class="card-img-top" alt="Bali Adventure Tour">
+                        <div class="card-body">
+                            <div class="d-flex justify-content-between mb-3">
+                                <span class="badge bg-primary">Adventure</span>
+                                <span class="text-warning">
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star-half-alt"></i>
+                                </span>
+                            </div>
+                            <h5 class="card-title">Bali Adventure Expedition</h5>
+                            <p class="card-text">7-day adventure through Bali's jungles, volcanoes and beaches.</p>
+                            <div class="d-flex justify-content-between align-items-center mt-4">
+                                <span class="h5 text-primary mb-0">$1,299</span>
+                                <button class="btn btn-sm btn-outline-primary view-details-btn" data-bs-toggle="modal" data-bs-target="#tourModal">View Details</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- European Cultural Tour -->
+                <div class="col-md-6 col-lg-4">
+                    <div class="card border-0 shadow-sm h-100 tour-card" data-tour="europe-cultural">
+                        <img src="https://images.unsplash.com/photo-1491557345352-5929e343eb89?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1470&q=80" class="card-img-top" alt="European Cultural Tour">
+                        <div class="card-body">
+                            <div class="d-flex justify-content-between mb-3">
+                                <span class="badge bg-success">Cultural</span>
+                                <span class="text-warning">
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                </span>
+                            </div>
+                            <h5 class="card-title">European Cultural Journey</h5>
+                            <p class="card-text">14-day exploration of Europe's most iconic cities and landmarks.</p>
+                            <div class="d-flex justify-content-between align-items-center mt-4">
+                                <span class="h5 text-primary mb-0">$3,499</span>
+                                <button class="btn btn-sm btn-outline-primary view-details-btn" data-bs-toggle="modal" data-bs-target="#tourModal">View Details</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Maldives Luxury Tour -->
+                <div class="col-md-6 col-lg-4">
+                    <div class="card border-0 shadow-sm h-100 tour-card" data-tour="maldives-luxury">
+                        <img src="https://images.unsplash.com/photo-1573843981267-be1999ff37cd?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1474&q=80" class="card-img-top" alt="Maldives Luxury Escape">
+                        <div class="card-body">
+                            <div class="d-flex justify-content-between mb-3">
+                                <span class="badge bg-warning text-dark">Luxury</span>
+                                <span class="text-warning">
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                </span>
+                            </div>
+                            <h5 class="card-title">Maldives Luxury Escape</h5>
+                            <p class="card-text">10-day private island retreat with overwater bungalows.</p>
+                            <div class="d-flex justify-content-between align-items-center mt-4">
+                                <span class="h5 text-primary mb-0">$5,999</span>
+                                <button class="btn btn-sm btn-outline-primary view-details-btn" data-bs-toggle="modal" data-bs-target="#tourModal">View Details</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Custom Tours -->
+    <section class="py-5 bg-light">
+        <div class="container py-5">
+            <div class="row align-items-center">
+                <div class="col-lg-6 mb-5 mb-lg-0">
+                    <h2 class="fw-bold mb-4">Custom <span class="text-primary">Tours</span></h2>
+                    <p class="lead mb-4">Can't find exactly what you're looking for? We'll create a personalized itinerary.</p>
+                    <p>Our travel experts will design a unique experience tailored to your interests, travel style, schedule, and special requirements.</p>
+                    <a href="contact.html" class="btn btn-primary btn-lg mt-3">Request a Custom Tour</a>
+                </div>
+                <div class="col-lg-6">
+                    <img src="https://images.unsplash.com/photo-1503220317375-aaad61436b1b?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1470&q=80" alt="Custom Tours" class="img-fluid rounded shadow">
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Tour Details Modal -->
+    <div class="modal fade" id="tourModal" tabindex="-1" aria-labelledby="tourModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="tourModalLabel">Tour Details</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <img id="tourModalImage" src="" class="img-fluid rounded mb-3" alt="">
+                            <div class="d-flex justify-content-between mb-3">
+                                <span id="tourModalBadge" class="badge"></span>
+                                <span id="tourModalRating" class="text-warning"></span>
+                            </div>
+                            <h4 id="tourModalTitle" class="mb-3"></h4>
+                            <p id="tourModalDescription" class="mb-4"></p>
+                        </div>
+                        <div class="col-md-6">
+                            <h5 class="mb-3">Tour Highlights</h5>
+                            <ul id="tourModalHighlights" class="mb-4"></ul>
+                            
+                            <h5 class="mb-3">Itinerary</h5>
+                            <div id="tourModalItinerary" class="accordion mb-4"></div>
+                            
+                            <div class="d-flex justify-content-between align-items-center mb-4">
+                                <div>
+                                    <h5 id="tourModalPrice" class="text-primary mb-0"></h5>
+                                    <small class="text-muted">Per person, double occupancy</small>
+                                </div>
+                                <div>
+                                    <span class="badge bg-light text-dark"><i class="fas fa-clock me-1"></i> <span id="tourModalDuration"></span></span>
+                                </div>
+                            </div>
+                            
+                            <button class="btn btn-primary w-100 btn-lg">Book Now</button>
+                            <button class="btn btn-outline-primary w-100 mt-2">Add to Wishlist</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Dynamic Footer -->
+    <div id="footer-placeholder"></div>
+    
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="script.js"></script>
+    <script>
+        // Tour data for the modal
+        const tours = {
+            "bali-adventure": {
+                title: "Bali Adventure Expedition",
+                image: "https://images.unsplash.com/photo-1526779259212-939e64788e3c?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1474&q=80",
+                category: "Adventure",
+                badgeClass: "bg-primary",
+                rating: '<i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star-half-alt"></i>',
+                price: "$1,299",
+                duration: "7 Days",
+                description: "Experience the ultimate 7-day adventure through Bali's most breathtaking landscapes. This expedition takes you through lush jungles, active volcanoes, and pristine beaches, with expert guides leading the way.",
+                highlights: [
+                    "Trek to the summit of Mount Batur for sunrise",
+                    "White water rafting on the Ayung River",
+                    "Jungle waterfall exploration",
+                    "Snorkeling in crystal clear waters",
+                    "Traditional Balinese cooking class"
+                ],
+                itinerary: [
+                    { day: "Day 1", title: "Arrival & Ubud Exploration", content: "Arrive in Bali and transfer to Ubud. Afternoon tour of Ubud's cultural highlights including the Monkey Forest and traditional markets." },
+                    { day: "Day 2", title: "Mount Batur Sunrise Trek", content: "Early morning trek to Mount Batur summit to watch sunrise over Bali. Afternoon at leisure to relax or explore more of Ubud." },
+                    { day: "Day 3", title: "White Water Rafting", content: "Full day of white water rafting through Bali's jungle gorges, with stops at hidden waterfalls along the way." },
+                    { day: "Day 4", title: "Beach Transfer & Snorkeling", content: "Transfer to coastal area for snorkeling adventure in crystal clear waters teeming with marine life." },
+                    { day: "Day 5", title: "Jungle Waterfalls", content: "Explore Bali's most spectacular hidden waterfalls with a local guide, including opportunities to swim in natural pools." },
+                    { day: "Day 6", title: "Cultural Experiences", content: "Traditional Balinese cooking class and temple visits to experience the island's rich cultural heritage." },
+                    { day: "Day 7", title: "Departure", content: "Transfer to airport for departure with unforgettable memories of Bali's natural wonders." }
+                ]
+            },
+            "europe-cultural": {
+                title: "European Cultural Journey",
+                image: "https://images.unsplash.com/photo-1491557345352-5929e343eb89?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1470&q=80",
+                category: "Cultural",
+                badgeClass: "bg-success",
+                rating: '<i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i>',
+                price: "$3,499",
+                duration: "14 Days",
+                description: "This 14-day cultural odyssey takes you through Europe's most iconic cities and landmarks, with expert guides providing deep insights into each destination's history and traditions.",
+                highlights: [
+                    "Skip-the-line access to major attractions",
+                    "Private guided tours in each city",
+                    "Local culinary experiences",
+                    "Evening cultural performances",
+                    "Comfortable boutique hotels"
+                ],
+                itinerary: [
+                    { day: "Days 1-3", title: "Paris, France", content: "Explore the City of Light including the Louvre, Eiffel Tower, and Notre Dame. Seine River cruise and Montmartre walking tour." },
+                    { day: "Days 4-5", title: "Florence, Italy", content: "Renaissance art and architecture including the Uffizi Gallery, Duomo, and Accademia to see Michelangelo's David." },
+                    { day: "Days 6-7", title: "Rome, Italy", content: "Ancient Rome highlights including the Colosseum, Roman Forum, Vatican Museums and Sistine Chapel." },
+                    { day: "Days 8-9", title: "Prague, Czech Republic", content: "Medieval charm with Prague Castle, Charles Bridge, and Old Town Square. Traditional Czech dinner with folk music." },
+                    { day: "Days 10-11", title: "Vienna, Austria", content: "Imperial palaces, classical music heritage, and famous coffee house culture." },
+                    { day: "Days 12-13", title: "Budapest, Hungary", content: "Thermal baths, Danube River cruise, and exploration of Buda Castle district." },
+                    { day: "Day 14", title: "Departure", content: "Transfer to airport for return flight home." }
+                ]
+            },
+            "maldives-luxury": {
+                title: "Maldives Luxury Escape",
+                image: "https://images.unsplash.com/photo-1573843981267-be1999ff37cd?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1474&q=80",
+                category: "Luxury",
+                badgeClass: "bg-warning text-dark",
+                rating: '<i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i>',
+                price: "$5,999",
+                duration: "10 Days",
+                description: "Indulge in the ultimate 10-day luxury retreat at a private Maldivian island resort. Your overwater bungalow provides direct access to crystal clear waters teeming with marine life.",
+                highlights: [
+                    "Private overwater bungalow with pool",
+                    "Daily spa treatments included",
+                    "Private sunset dolphin cruise",
+                    "Gourmet dining with underwater restaurant",
+                    "Personal butler service"
+                ],
+                itinerary: [
+                    { day: "Day 1", title: "Arrival & Transfer", content: "Seaplane transfer to your private island resort. Welcome drink and resort orientation." },
+                    { day: "Day 2", title: "Spa & Relaxation", content: "Morning spa treatment followed by leisure time to enjoy your private pool and the resort amenities." },
+                    { day: "Day 3", title: "Snorkeling Adventure", content: "Guided snorkeling tour of the house reef with marine biologist to learn about the local ecosystem." },
+                    { day: "Day 4", title: "Sunset Cruise", content: "Private sunset cruise with champagne to spot dolphins and enjoy the Maldivian sunset." },
+                    { day: "Day 5", title: "Private Island Picnic", content: "Day trip to a deserted sandbank for a private picnic lunch in paradise." },
+                    { day: "Day 6", title: "Underwater Dining", content: "Exclusive dining experience at the resort's underwater restaurant." },
+                    { day: "Day 7", title: "Spa Day", content: "Full day spa package including massage, facial, and hydrotherapy treatments." },
+                    { day: "Day 8", title: "Water Sports", content: "Day of water sports including paddleboarding, kayaking, and jet skiing." },
+                    { day: "Day 9", title: "Leisure Day", content: "Day at leisure to enjoy your final full day in paradise as you wish." },
+                    { day: "Day 10", title: "Departure", content: "Seaplane transfer back to Male for your international flight." }
+                ]
+            }
+        };
+
+        // Handle view details button clicks
+        document.addEventListener('DOMContentLoaded', function() {
+            const viewDetailsButtons = document.querySelectorAll('.view-details-btn');
+            
+            viewDetailsButtons.forEach(button => {
+                button.addEventListener('click', function() {
+                    const tourCard = this.closest('.tour-card');
+                    const tourId = tourCard.getAttribute('data-tour');
+                    const tour = tours[tourId];
+                    
+                    if (tour) {
+                        // Set basic tour info
+                        document.getElementById('tourModalImage').src = tour.image;
+                        document.getElementById('tourModalTitle').textContent = tour.title;
+                        document.getElementById('tourModalDescription').textContent = tour.description;
+                        document.getElementById('tourModalPrice').textContent = tour.price;
+                        document.getElementById('tourModalDuration').textContent = tour.duration;
+                        
+                        // Set badge and rating
+                        const badge = document.getElementById('tourModalBadge');
+                        badge.textContent = tour.category;
+                        badge.className = 'badge ' + tour.badgeClass;
+                        document.getElementById('tourModalRating').innerHTML = tour.rating;
+                        
+                        // Set highlights
+                        const highlightsList = document.getElementById('tourModalHighlights');
+                        highlightsList.innerHTML = '';
+                        tour.highlights.forEach(highlight => {
+                            const li = document.createElement('li');
+                            li.className = 'mb-2';
+                            li.innerHTML = `<i class="fas fa-check-circle text-primary me-2"></i>${highlight}`;
+                            highlightsList.appendChild(li);
+                        });
+                        
+                        // Set itinerary
+                        const itineraryAccordion = document.getElementById('tourModalItinerary');
+                        itineraryAccordion.innerHTML = '';
+                        tour.itinerary.forEach((item, index) => {
+                            const accordionItem = document.createElement('div');
+                            accordionItem.className = 'accordion-item';
+                            accordionItem.innerHTML = `
+                                <h2 class="accordion-header" id="heading${index}">
+                                    <button class="accordion-button ${index === 0 ? '' : 'collapsed'}" type="button" data-bs-toggle="collapse" data-bs-target="#collapse${index}" aria-expanded="${index === 0 ? 'true' : 'false'}" aria-controls="collapse${index}">
+                                        ${item.day}: ${item.title}
+                                    </button>
+                                </h2>
+                                <div id="collapse${index}" class="accordion-collapse collapse ${index === 0 ? 'show' : ''}" aria-labelledby="heading${index}" data-bs-parent="#tourModalItinerary">
+                                    <div class="accordion-body">
+                                        ${item.content}
+                                    </div>
+                                </div>
+                            `;
+                            itineraryAccordion.appendChild(accordionItem);
+                        });
+                    }
+                });
+            });
+        });
+    </script>
+</body>
+</html>

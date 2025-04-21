@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Destinations - Nagar Overseas</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+    <!-- Dynamic Navbar -->
+    <div id="navbar-placeholder"></div>
+    
+    <!-- Destinations Hero -->
+    <section class="destinations-hero-section">
+        <div class="container h-100">
+            <div class="row h-100 align-items-center">
+                <div class="col-lg-8 mx-auto text-center">
+                    <h1 class="display-3 fw-bold text-white mb-4">Explore the World</h1>
+                    <p class="lead text-white">Discover our curated selection of global destinations</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Destinations Filter -->
+    <section class="py-5 bg-light">
+        <div class="container py-4">
+            <div class="row g-3">
+                <div class="col-md-6 col-lg-3">
+                    <select id="regionFilter" class="form-select">
+                        <option value="all" selected>All Regions</option>
+                        <option value="africa">Africa</option>
+                        <option value="asia">Asia</option>
+                        <option value="europe">Europe</option>
+                        <option value="north-america">North America</option>
+                        <option value="south-america">South America</option>
+                        <option value="oceania">Oceania</option>
+                    </select>
+                </div>
+                <div class="col-md-6 col-lg-3">
+                    <select id="activityFilter" class="form-select">
+                        <option value="all" selected>All Activities</option>
+                        <option value="adventure">Adventure</option>
+                        <option value="beach">Beach</option>
+                        <option value="cultural">Cultural</option>
+                        <option value="wildlife">Wildlife</option>
+                        <option value="wellness">Wellness</option>
+                    </select>
+                </div>
+                <div class="col-md-6 col-lg-3">
+                    <select id="seasonFilter" class="form-select">
+                        <option value="all" selected>All Seasons</option>
+                        <option value="spring">Spring</option>
+                        <option value="summer">Summer</option>
+                        <option value="autumn">Autumn</option>
+                        <option value="winter">Winter</option>
+                    </select>
+                </div>
+                <div class="col-md-6 col-lg-3">
+                    <button id="filterButton" class="btn btn-primary w-100">Filter Destinations</button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Destinations Grid -->
+    <section class="py-5">
+        <div class="container py-5">
+            <div class="row g-4" id="destinationsGrid">
+                <!-- Destination cards will be inserted here by JavaScript -->
+            </div>
+            <nav aria-label="Destinations pagination" class="mt-5">
+                <ul class="pagination justify-content-center" id="pagination">
+                    <!-- Pagination will be inserted here by JavaScript -->
+                </ul>
+            </nav>
+        </div>
+    </section>
+
+    <!-- Why Choose Us -->
+    <section class="py-5 bg-light">
+        <div class="container py-5">
+            <div class="text-center mb-5">
+                <h2 class="fw-bold">Why Choose <span class="text-primary">Nagar Overseas</span></h2>
+                <p class="lead">For your next global adventure</p>
+            </div>
+            <div class="row g-4">
+                <div class="col-md-6 col-lg-3">
+                    <div class="card border-0 shadow-sm h-100">
+                        <div class="card-body text-center p-4">
+                            <div class="icon-box bg-primary-light text-primary mb-4">
+                                <i class="fas fa-globe fa-2x"></i>
+                            </div>
+                            <h5>Global Expertise</h5>
+                            <p class="mb-0">Our team has visited every destination we offer, providing you with authentic, first-hand recommendations.</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6 col-lg-3">
+                    <div class="card border-0 shadow-sm h-100">
+                        <div class="card-body text-center p-4">
+                            <div class="icon-box bg-primary-light text-primary mb-4">
+                                <i class="fas fa-hand-holding-heart fa-2x"></i>
+                            </div>
+                            <h5>Sustainable Travel</h5>
+                            <p class="mb-0">We partner with eco-friendly accommodations and support local communities at every destination.</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6 col-lg-3">
+                    <div class="card border-0 shadow-sm h-100">
+                        <div class="card-body text-center p-4">
+                            <div class="icon-box bg-primary-light text-primary mb-4">
+                                <i class="fas fa-shield-alt fa-2x"></i>
+                            </div>
+                            <h5>Travel Protection</h5>
+                            <p class="mb-0">24/7 support and comprehensive travel insurance included with every booking for your peace of mind.</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6 col-lg-3">
+                    <div class="card border-0 shadow-sm h-100">
+                        <div class="card-body text-center p-4">
+                            <div class="icon-box bg-primary-light text-primary mb-4">
+                                <i class="fas fa-tag fa-2x"></i>
+                            </div>
+                            <h5>Best Price Guarantee</h5>
+                            <p class="mb-0">We'll match or beat any competitor's price for the same itinerary and inclusions.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Destination Modal -->
+    <div class="modal fade" id="destinationModal" tabindex="-1" aria-labelledby="destinationModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="destinationModalLabel">Destination Details</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <img id="modalDestinationImage" src="" class="img-fluid rounded mb-3" alt="">
+                            <div class="d-flex flex-wrap gap-2 mb-3">
+                                <span id="modalDestinationRegion" class="badge bg-primary"></span>
+                                <span id="modalDestinationActivities" class="badge bg-success"></span>
+                                <span id="modalDestinationSeasons" class="badge bg-warning text-dark"></span>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <h3 id="modalDestinationTitle" class="mb-3"></h3>
+                            <p id="modalDestinationDescription" class="mb-4"></p>
+                            <h5 class="mb-3">Highlights</h5>
+                            <ul id="modalDestinationHighlights" class="mb-4"></ul>
+                            <div class="d-flex justify-content-between align-items-center">
+                                <div>
+                                    <h5 class="text-primary mb-0">Featured Tours From</h5>
+                                    <span id="modalDestinationPrice" class="h4 text-primary"></span>
+                                </div>
+                                <a href="tours.html" class="btn btn-primary">View Tours</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Dynamic Footer -->
+    <div id="footer-placeholder"></div>
+    
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="script.js"></script>
+    <script src="destinations.js"></script>
+</body>
+</html>
